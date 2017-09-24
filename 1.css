@@ -1,0 +1,148 @@
+body {
+    text-align: center;
+}
+
+#container{
+    height: 390px;
+    width: 400px;
+    padding-top: 40px;
+    background-color: rgba(240,180,135,1);
+    margin: 100px auto;
+    box-shadow: inset -1px 1px 7px rgba(0,0,0,.2), inset 1px -1px 7px rgba(0,0,0,.2), 1px 12px 5px rgba(0,0,0,.4), 4px 3px 8px rgba(0,0,0,.4), 5px 10px 10px rgba(0,0,0,.2), -5px 10px 10px rgba(0,0,0,.4);
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+}
+
+#board {
+    background: rgba(40,40,40,1) -webkit-radial-gradient(center, rgba(40,80,60,1), rgba(0,20,20,.6));
+    width: 350px;
+    height: 350px;
+    position: relative;
+    margin:0 auto;
+    padding: 10px;
+}
+
+.page {
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    font-family: 'Architects Daughter', Helvetica, sans-serif;
+    width: 80%;
+    margin: 40px auto;
+    display: inline-block;
+    color: white;
+}
+
+.options {
+    margin-top: 30px;
+}
+
+#back {
+    bottom: 30px;
+    margin-top: 50px;
+}
+
+#page3 {
+    position: relative;
+}
+
+#tiles {
+    width: 100%;
+    height: 100%;
+    margin-right: 4px;    
+    margin-top: 12px;
+}
+
+#tiles div {
+    display: inline-block;
+    width: 32%;
+    height: 32%;
+    margin-right: -4px;
+    margin-top: -4px;
+    box-sizing: border-box;    
+    position: relative;
+}
+
+span.letter {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-family: 'Architects Daughter', Helvetica, sans-serif;
+    font-size: 100px;
+    color: rgba(220,220,220,.7);
+    line-height: 100px;
+}
+
+.row1{
+    border-bottom: 1px solid rgba(220,220,220,.7);
+}
+.row2{
+    border-bottom: 1px solid rgba(220,220,220,.7);
+    border-top: 1px solid rgba(220,220,220,.7);
+}
+.row3{
+    border-top: 1px solid rgba(220,220,220,.7);    
+}
+
+.col1{
+    border-right: 1px solid rgba(220,220,220,.7);    
+}
+.col2{
+    border-right: 1px solid rgba(220,220,220,.7);    
+    border-left: 1px solid rgba(220,220,220,.7);        
+}
+.col3{
+    border-left: 1px solid rgba(220,220,220,.7);            
+}
+
+#result-msg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left: 0;
+    background-color: rgba(0,0,0,.8);
+    opacity: 0;
+    display: none;    
+}
+
+#result-msg div {
+    position: absolute;    
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: auto;
+    display: inline-block;
+    font-family: 'Architects Daughter', sans-serif;
+    font-size: 2.3rem;
+    color: white;
+    height: 2.3rem;
+}
+
+#player1-turn,#computer-or-player2-turn{
+    position: absolute;
+    width: 170px;
+    height: 40px;
+    background-color: rgba(0,200,200,1);
+    top: 0px;
+    left: 15px;
+    font-size:1.3rem;
+    color: white;
+    font-family: sans-serif;
+    line-height: 2;
+    z-index: -1;
+}
+
+#computer-or-player2-turn {
+    right: 15px;
+    left: initial;
+    background-color: rgba(200,100,100,1);
+}

@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>TicTacToe</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='1.js'></script>
+    <link rel="stylesheet" href="1.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Architects+Daughter">
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="player1-turn">Your turn!</div>
+        <div id="computer-or-player2-turn">Computer's turn!</div>
+        <div id="board">
+            <div id="page1" class="page">
+                <h1 class="title">How do you want to play?</h1>
+                <div class="options">
+                    <button id='one-player'>One Player</button>
+                    <button id='two-player'>Two Player</button>
+                </div>
+            </div>
+            <div id="page2" class="page" style="display:none">
+                <h1 class="title">Would you like to be X or O?</h1>
+                <div class="options">
+                    <button id='tokenX'>X</button>
+                    <button id='tokenO'>O</button>
+                </div>
+                <button id="back">&#8592;Back</button>
+            </div>
+            <div id="page3" class="page" style="display:none">
+                <div id="tiles">
+                    <div class="row1 col1"><span id="1" class="letter"></span></div>
+                    <div class="row1 col2"><span id="2" class="letter"></span></div>
+                    <div class="row1 col3"><span id="3" class="letter"></span></div>
+                    <div class="row2 col1"><span id="4" class="letter"></span></div>
+                    <div class="row2 col2"><span id="5" class="letter"></span></div>
+                    <div class="row2 col3"><span id="6" class="letter"></span></div>
+                    <div class="row3 col1"><span id="7" class="letter"></span></div>
+                    <div class="row3 col2"><span id="8" class="letter"></span></div>
+                    <div class="row3 col3"><span id="9" class="letter"></span></div>
+                </div>
+            </div>
+            <div id="result-msg"><div>Uh oh, you lost..!</div></div>
+            
+        </div>
+    </div>
+</body>
+
+</html>
