@@ -167,6 +167,27 @@ span.letter {
     background-color: rgba(200,100,100,1);
 }
 
+#reset-all {
+    position: absolute;
+    width: 90px;
+    height: 20px;
+    right: 15px;
+    top: 5px;
+    font-size: 18px;
+    font-family: 'Architects Daughter', sans-serif;
+    line-height: 20px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    color: rgba(100,60,50,.8);
+    cursor: pointer;
+    display: none;
+}
+
+#reset-all:hover {
+    border: 2px dashed rgba(100,60,50,1);
+    color: rgba(100,60,50,1);
+}
+
 #player1-sum, #computer-or-player2-sum {
     position: absolute;
     width: 72px;

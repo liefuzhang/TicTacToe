@@ -4,7 +4,8 @@ $(document).ready(() => {
 
 var settings = {
     player1Token: 'O',
-    computerOrPlayer2Token: 'X'
+    computerOrPlayer2Token: 'X',
+    currentPage: 1
 }
 
 var board = {
@@ -35,25 +36,41 @@ function saveOriginalBoard() {
     originalBoard = JSON.parse(JSON.stringify(board));
 }
 
-function resetBoard() {
+function resetBoard(isResetAll) {
+    // another time window, after resetBoard(false) called by
+    // showResult(), then click resetAll, it may enter resetBoard at the same time
+    if (settings.currentPage !== 3) return;
     var winner = board.winner;
     board = JSON.parse(JSON.stringify(originalBoard));
     $(".letter").html('')
         .css('background-color', 'inherit')
         .css('color', 'rgba(220,220,220,.7)');
-    if (winner === 2) {
-        triggerComputerOrPlayer2Play();
+    if (isResetAll) {
+        $('#player1-score,#computer-or-player2-score').text('0');
+        showOrHideTurn(1, false, false);
+        showOrHideTurn(2, false, false);
+        showOrHidePage3Header(false);
+        $('#result-msg').hide();
+    } else {
+        if (winner === 2
+            || winner === 0 && settings.player1Token === 'O') {
+            triggerComputerOrPlayer2Play();
+        }
+        initializeTurn(winner);
     }
-    initializeTurn(winner);
 }
 
 function setupClickHandlers() {
     $('#one-player').click(() => {
+        board.isPlayer2InGame = false;
+        $('#page2 .title').text('Would you like to be X or O?');
+        $('#computer-or-player2-name').text('computer');
         goToPage(1, 2);
     });
     $('#two-player').click(() => {
         board.isPlayer2InGame = true;
         $('#page2 .title').text('Player 1 : Would you like X or O?');
+        $('#computer-or-player2-name').text('player 2');
         goToPage(1, 2);
     });
     $('#back').click(() => {
@@ -67,11 +84,14 @@ function setupClickHandlers() {
     $('#tokenO').click(() => {
         settings.player1Token = 'O';
         settings.computerOrPlayer2Token = 'X';
-        goToPage(2, 3);
-        triggerComputerOrPlayer2Play();
+        goToPage(2, 3, triggerComputerOrPlayer2Play);
     });
     $('.letter').click(function () {
         onTileClicked($(this).attr('id'), false);
+    });
+    $('#reset-all').click(function () {
+        resetBoard(true);
+        goToPage(3, 1);
     });
 }
 
@@ -94,17 +114,17 @@ function numberSelected(num) {
     updateUI(num);
     if (!finished) {
         if (board.isComputerOrPlayer2Playing) {
-            // player 2 played
-            showOrHideTurn(2, false);
-            showOrHideTurn(1, true);
+            // computer or player 2 played
+            showOrHideTurn(2, false, true);
+            showOrHideTurn(1, true, true);
         } else {
             // player 1 played
-            showOrHideTurn(1, false);
-            showOrHideTurn(2, true);
+            showOrHideTurn(1, false, true);
+            showOrHideTurn(2, true, true);
         }
     } else {
-        showOrHideTurn(1, false);
-        showOrHideTurn(2, false);
+        showOrHideTurn(1, false, true);
+        showOrHideTurn(2, false, true);
     }
 
     if (board.isComputerOrPlayer2Playing == true) {
@@ -140,6 +160,7 @@ function updateWinningSet(num) {
                 showResult();
                 finished = true;
                 board.winner = 2;
+                $('#computer-or-player2-score').text(Number($('#computer-or-player2-score').text()) + 1);
             } else if (board.winningSetCount[set] == -3) {
                 var msg = board.isPlayer2InGame ? '<div>Ah ha, player 1 won!!</div>' : '<div>Wow, you won!!</div>';
                 $resultMsg.html(msg);
@@ -147,6 +168,7 @@ function updateWinningSet(num) {
                 showResult();
                 finished = true;
                 board.winner = 1;
+                $('#player1-score').text(Number($('#player1-score').text()) + 1);
             }
         }
     }, this);
@@ -155,6 +177,7 @@ function updateWinningSet(num) {
         $resultMsg.html('<div>It was a draw..</div>');
         showResult();
         finished = true;
+        board.winner = 0;
     }
 
     return finished;
@@ -168,7 +191,7 @@ function showResult() {
             opacity: 0
         }, 2000, function () {
             $(this).hide();
-            resetBoard();
+            resetBoard(false);
         });
     });
 }
@@ -196,6 +219,7 @@ function defense() {
 }
 
 function triggerComputerOrPlayer2Play() {
+    if (settings.currentPage !== 3) return;    
     board.isLocked = true;
     board.isComputerOrPlayer2Playing = true;
 
@@ -207,6 +231,7 @@ function triggerComputerOrPlayer2Play() {
 }
 
 function computerPlays() {
+    if (settings.currentPage !== 3) return;    
     var canWin = Object.keys(board.winningSetCount).some((set) => {
         return board.winningSetCount[set] == 2;
     });
@@ -260,46 +285,48 @@ function computerPlays() {
 
 function initializeTurn(winner) {
     if (board.isPlayer2InGame) {
-        $('#player1-turn').text('Player 1\'s turn');
+        $('#player1-turn').text('player 1\'s turn');
         $('#computer-or-player2-turn').text('player 2\'s turn');
+    } else {
+        $('#player1-turn').text('Your turn!');
+        $('#computer-or-player2-turn').text('Computer\'s turn');
     }
     if (winner > 0) {
-        showOrHideTurn(winner, true);
+        showOrHideTurn(winner, true, false);
     } else if (settings.player1Token === 'O') {
-        showOrHideTurn(2, true);
+        showOrHideTurn(2, true, false);
     } else {
-        showOrHideTurn(1, true);
+        showOrHideTurn(1, true, false);
     }
 }
 
-function showOrHideTurn(turnNum, show) {
+function showOrHideTurn(turnNum, show, isAnimated) {
+    if (settings.currentPage !== 3) return;    
     var turn = turnNum == 1 ? $('#player1-turn') : $('#computer-or-player2-turn');
     var top = show ? '-40px' : '0';
+    var duration = isAnimated ? 500 : 0;
     turn.animate({
         top: top
-    }, 500);
+    }, duration);
 }
 
-function showOrHideSum(show) {
+function showOrHidePage3Header(show) {
     if (show) {
-        $('#player1-sum, #computer-or-player2-sum').show();
+        $('#player1-sum, #computer-or-player2-sum, #reset-all').show();
     } else {
-        $('#player1-sum, #computer-or-player2-sum').hide();
+        $('#player1-sum, #computer-or-player2-sum, #reset-all').hide();
     }
 }
 
-function goToPage(from, to) {
+function goToPage(from, to, callback) {
+    settings.currentPage = to;
     $("#page" + from).fadeOut(600, () => {
         if (to === 3) {
-            showOrHideSum(true);
-        } else {
-            showOrHideSum(false);
+            showOrHidePage3Header(true);
+            saveOriginalBoard();
+            initializeTurn();
+            if (callback) callback();
         }
-        $("#page" + to).fadeIn(600, () => {
-            if (to === 3) {
-                saveOriginalBoard();
-                initializeTurn();
-            }
-        });
+        $("#page" + to).fadeIn(600);
     });
 }
