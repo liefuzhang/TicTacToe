@@ -37,12 +37,32 @@ body {
 }
 
 .options {
-    margin-top: 30px;
+    margin-top: 10px;
+}
+
+button {
+    opacity: .6;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    font-size: 1.7rem;
+    color: rgba(220,220,220,1);
+    background:  none;
+    cursor: pointer;
+    outline: none;
+}
+
+#tokenX, #tokenO {
+    font-size: 3rem;
+    margin: 0 5px;
+}
+
+.options button:hover {
+    border: 2px dashed rgba(220,220,220,1);
 }
 
 #back {
     bottom: 30px;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 #page3 {
@@ -146,3 +166,32 @@ span.letter {
     left: initial;
     background-color: rgba(200,100,100,1);
 }
+
+#player1-sum, #computer-or-player2-sum {
+    position: absolute;
+    width: 72px;
+    height: 40px;
+    top: 0px;
+    left: 50px;
+    font-size: 0.9em;
+    color: rgba(100,60,50,.8);
+    line-height: 1.1;
+    padding: 5px;
+    text-align: left;
+    font-family: 'Architects Daughter', sans-serif;
+    display: none;
+}
+
+#computer-or-player2-sum {
+    left: 150px;
+}
+
+#player1-sum::after {
+    content:'';
+    width: 2px;
+    height: 35px;
+    background-color: rgba(100,60,50,.3);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+} 

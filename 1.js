@@ -49,25 +49,25 @@ function resetBoard() {
 
 function setupClickHandlers() {
     $('#one-player').click(() => {
-        goToPage(2);
+        goToPage(1, 2);
     });
     $('#two-player').click(() => {
         board.isPlayer2InGame = true;
         $('#page2 .title').text('Player 1 : Would you like X or O?');
-        goToPage(2);
+        goToPage(1, 2);
     });
     $('#back').click(() => {
-        goToPage(1);
+        goToPage(2, 1);
     });
     $('#tokenX').click(() => {
         settings.player1Token = 'X';
         settings.computerOrPlayer2Token = 'O';
-        goToPage(3);
+        goToPage(2, 3);
     });
     $('#tokenO').click(() => {
         settings.player1Token = 'O';
         settings.computerOrPlayer2Token = 'X';
-        goToPage(3);
+        goToPage(2, 3);
         triggerComputerOrPlayer2Play();
     });
     $('.letter').click(function () {
@@ -280,11 +280,26 @@ function showOrHideTurn(turnNum, show) {
     }, 500);
 }
 
-function goToPage(num) {
-    $(".page").hide();
-    $("#page" + num).show();
-    if (num == 3) {
-        saveOriginalBoard();
-        initializeTurn();
+function showOrHideSum(show) {
+    if (show) {
+        $('#player1-sum, #computer-or-player2-sum').show();
+    } else {
+        $('#player1-sum, #computer-or-player2-sum').hide();
     }
+}
+
+function goToPage(from, to) {
+    $("#page" + from).fadeOut(600, () => {
+        if (to === 3) {
+            showOrHideSum(true);
+        } else {
+            showOrHideSum(false);
+        }
+        $("#page" + to).fadeIn(600, () => {
+            if (to === 3) {
+                saveOriginalBoard();
+                initializeTurn();
+            }
+        });
+    });
 }
